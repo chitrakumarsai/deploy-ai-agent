@@ -1,0 +1,32 @@
+services: # dockers compose expects
+  backend: # can be any name
+    build:
+      context: ./backend # directory with Dockerfile
+      dockerfile: Dockerfile # Dockerfile in current directory 
+    ports: # expose port
+      - "8080:8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes: # mount current directory to /app in container
+      - ./backend/src:/app
+    develop:
+      watch: # watch for changes in the backend/requirements.txt directory
+        - action: rebuild
+          path: ./backend/requirements.txt
+        - action: rebuild
+          path: ./backend/Dockerfile
+        - action: restart
+          path: ./backend/src
+
+
+
+
+  # app: # can be any name
+  #   build:
+  #     context: . # current directory
+  #     dockerfile: Dockerfile # Dockerfile in current directory 
+  #   #image: python:3.13.5-slim-bullseye
+  #   ports: # expose port
+  #     - "8000:8000"
+  #   command: python -m http.server 8000
+  #   volumes: # mount current directory to /app in container
+  #     - .:/app
