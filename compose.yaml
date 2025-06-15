@@ -6,6 +6,10 @@ services: # dockers compose expects
     ports: # expose port
       - "8080:8000"
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - PORT=8000
+    env_file:
+      - .env.local # load environment variables from .env.local file
     volumes: # mount current directory to /app in container
       - ./backend/src:/app
     develop:
@@ -14,8 +18,9 @@ services: # dockers compose expects
           path: ./backend/requirements.txt
         - action: rebuild
           path: ./backend/Dockerfile
-        - action: restart
+        - action: sync
           path: ./backend/src
+          target: /app
 
 
 
