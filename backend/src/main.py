@@ -7,4 +7,4 @@ if not API_KEY:
     raise NotImplementedError(" API_KEY environment variable is not set. Please set it before running the application.")
 @app.get("/")
 def read_index():
-    return {"message": "Welcome to the FastAPI application! This is the index page.", "API_KEY": API_KEY}   
+    return {"message": "Welcome to the FastAPI application! This is the index page."}   
