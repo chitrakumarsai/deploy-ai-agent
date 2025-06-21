@@ -36,16 +36,5 @@ services: # dockers compose expects
     volumes:
       - dc_managed_db_data:/var/lib/postgresql/data
 
-  # static_html: # can be any name
-  #   build:
-  #     context: ./static_html # current directory
-  #     dockerfile: static.Dockerfile # Dockerfile in current directory 
-  #   #image: python:3.13.5-slim-bullseye
-  #   ports: # expose port
-  #     - "8000:8000"
-  #   command: python -m http.server 8000
-  #   volumes: # mount current directory to /app in container
-  #     - ./static_html/src:/app
-
 volumes:
   dc_managed_db_data:
