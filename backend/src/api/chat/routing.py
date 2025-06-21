@@ -14,7 +14,6 @@ def chat_health():
 def chat_list_messages(session: Session = Depends(get_session)):
     query = select(ChatMessage)
     result = session.exec(query).fetchall()[:10] # type: ignore
-
     return result
 
 @router.post("/", response_model=ChatMessage)
