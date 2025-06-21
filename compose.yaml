@@ -12,6 +12,8 @@ services: # dockers compose expects
       - .env.local # load environment variables from .env.local file
     volumes: # mount current directory to /app in container
       - ./backend/src:/app
+    depends_on:
+      - db_service
     develop:
       watch: # watch for changes in the backend/requirements.txt directory
         - action: rebuild
@@ -21,17 +23,29 @@ services: # dockers compose expects
         - action: sync
           path: ./backend/src
           target: /app
+  db_service:
+    image: postgres:17.5
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=db-password
+      - POSTGRES_DB=mydb
+    # env_file:
+    #   - .env.sample-db
+    volumes:
+      - dc_managed_db_data:/var/lib/postgresql/data
 
-
-
-
-  # app: # can be any name
+  # static_html: # can be any name
   #   build:
-  #     context: . # current directory
-  #     dockerfile: Dockerfile # Dockerfile in current directory 
+  #     context: ./static_html # current directory
+  #     dockerfile: static.Dockerfile # Dockerfile in current directory 
   #   #image: python:3.13.5-slim-bullseye
   #   ports: # expose port
   #     - "8000:8000"
   #   command: python -m http.server 8000
   #   volumes: # mount current directory to /app in container
-  #     - .:/app
+  #     - ./static_html/src:/app
+
+volumes:
+  dc_managed_db_data:

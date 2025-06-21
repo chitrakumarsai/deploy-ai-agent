@@ -1,5 +1,7 @@
 FROM python:3.13.5-slim-bullseye
 
+
+RUN apt-get update && apt-get install -y curl
 # create python virtual environment
 # isolated environment for python packages
 
